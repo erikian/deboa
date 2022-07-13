@@ -1,0 +1,7 @@
+*-error.log
+.*
+README.md
+eslint.config.js
+prettier.config.js
+src
+tsconfig.*
