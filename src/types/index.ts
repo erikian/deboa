@@ -1,3 +1,4 @@
+export * from './IAddTarEntriesParams'
 export * from './IControlFileOptions'
 export * from './IDeboa'
 export * from './IDeboaFromFile'

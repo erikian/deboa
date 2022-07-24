@@ -13,7 +13,7 @@ deboa provides all the tools you need to create a .deb from scratch or from your
 - Create your .deb in any OS, no superuser privileges or external binaries required
 - Supports compression in .tar, .tar.gz or .tar.xz out of the box. If you need another format, you can easily provide your own compressed files and let deboa do the rest
 - Support for icon and desktop specification file
-- Ability to set chmod permissions for every packaged file, even on Windows
+- Ability to set chmod permissions for every packaged file and to create symlinks, even on Windows
 
 
 # About .deb files
@@ -62,6 +62,26 @@ deboa.package().then(() => {
 
 For more details, please see the [IDeboa interface](https://github.com/erikian/deboa/blob/main/src/types/IDeboa.ts).
 
+- `additionalTarEntries`: runs after all source files are added to the .tar archive. You can use it to create any symbolic links you might need:
+
+  ```ts
+  const deboa = new Deboa({
+    additionalTarEntries: [
+      // creates a relative symlink from /usr/lib/my-awesome-app/some-executable-file
+      // to /usr/bin/my-awesome-app, equivalent to:
+      // cd /usr/bin && ln -s ../lib/my-awesome-app/some-executable-file some-executable-file
+      {
+        gname: 'root',
+        linkname: '../lib/my-awesome-app/some-executable-file', // link source
+        mode: parseInt('777', 8),
+        name: 'usr/bin/my-awesome-app', // link target
+        type: 'symlink',
+        uname: 'root',
+      }
+    ],
+    // other options
+  })
+  ```
 - `beforeCreateDesktopEntry`: runs before the desktop entry file is created. Allows you to modify the default entries and to add your own.
 - `beforePackage`: runs after the files are copied to the temporary directory and before they're packaged. You can use this to add/delete/rename any files before they're packaged.
 - `controlFileOptions`: additional control file fields. See the [IControlFileOptions interface](https://github.com/erikian/deboa/blob/main/src/types/IControlFileOptions.ts) for details.

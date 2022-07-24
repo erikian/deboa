@@ -1,7 +1,14 @@
-import type { Headers as Header } from 'tar-fs'
+import type { Headers as TarFSHeader } from 'tar-fs'
+import type { Headers as TarStreamHeader } from 'tar-stream'
 import { IControlFileOptions } from './IControlFileOptions'
 
 /**
+ * @property {IDeboa["additionalTarEntries"]} [additionalTarEntries] -
+ *  Additional entries to be added to the .tar archive. This is useful for
+ *  creating symlinks on Windows. See the [Headers]{@link TarStreamHeader}
+ *  interface from tar-stream for more details. Optional.
+ *
+ *
  * @property {IDeboa["beforeCreateDesktopEntry"]} [beforeCreateDesktopEntry] -
  *  Runs before the desktop entry file is created, allowing you to add more
  *  entries or modify the default entries if necessary. This can be a function
@@ -31,8 +38,8 @@ import { IControlFileOptions } from './IControlFileOptions'
  *  This callback makes it possible to modify file headers before they're
  *  written to the .tar archive, which is useful for setting permissions.
  *  This can be a function or a path to a file that has a function as its
- *  default export. See the {@link Header} interface from tar-fs and
- *  {@link https://github.com/mafintosh/tar-fs/blob/7ec11cb27f93948193770f32b4d820e2e7195715/README.md}
+ *  default export. See the [Headers]{@link TarFSHeader} interface from tar-fs
+ *  and {@link https://github.com/mafintosh/tar-fs/blob/7ec11cb27f93948193770f32b4d820e2e7195715/README.md}
  *  for more details. Optional.
  *
  *
@@ -55,6 +62,13 @@ import { IControlFileOptions } from './IControlFileOptions'
  *  **This field is mandatory.**
  */
 export interface IDeboa {
+  /**
+   * Additional entries to be added to the .tar archive. This is useful for
+   * creating symlinks on Windows. See the [Headers]{@link TarStreamHeader}
+   * interface from tar-stream for more details. Optional.
+   */
+  additionalTarEntries?: TarStreamHeader[]
+
   /**
    * Runs before the desktop entry file is created, allowing you to add more
    * entries or modify the default entries if necessary. This can be a function
@@ -90,11 +104,11 @@ export interface IDeboa {
    * This callback makes it possible to modify file headers before they're
    * written to the .tar archive, which is useful for setting permissions.
    * This can be a function or a path to a file that has a function as its
-   * default export. See the {@link Header} interface from tar-fs and
-   * {@link https://github.com/mafintosh/tar-fs/blob/7ec11cb27f93948193770f32b4d820e2e7195715/README.md}
+   * default export. See the [Headers]{@link TarFSHeader} interface from tar-fs
+   * and {@link https://github.com/mafintosh/tar-fs/blob/7ec11cb27f93948193770f32b4d820e2e7195715/README.md}
    * for more details. Optional.
    */
-  modifyTarHeader?: string | ((header: Header) => Header)
+  modifyTarHeader?: string | ((header: TarFSHeader) => TarFSHeader)
 
   /**
    * Location of the files you want to package. **This field is mandatory.**

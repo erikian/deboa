@@ -19,11 +19,15 @@ import tar from 'tar-fs'
 import { writeFileFromLines } from '../utils/writeFileFromLines'
 import { DeboaFromFile } from './DeboaFromFile'
 import { PassThrough as PassThroughStream } from 'stream'
+import { addTarEntries } from '../utils/addTarEntries'
 
 /**
  * @return IDeboa
  */
 class Deboa implements IDeboa {
+  /** See {@link IDeboa.additionalTarEntries} */
+  additionalTarEntries: IDeboa['additionalTarEntries'] = []
+
   /** See {@link IDeboa.beforeCreateDesktopEntry} */
   beforeCreateDesktopEntry: IDeboa['beforeCreateDesktopEntry'] = null
 
@@ -392,6 +396,13 @@ class Deboa implements IDeboa {
 
           return header
         },
+        ...(this.additionalTarEntries.length && {
+          finalize: false,
+          finish: async pack => {
+            await addTarEntries({ entries: this.additionalTarEntries, pack })
+            pack.finalize()
+          },
+        }),
       })
       .pipe(dataFileCompressor)
       .pipe(dataFileWriteStream)
