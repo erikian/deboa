@@ -29,6 +29,16 @@ any number of metadata/file contents pairs.
 - the `data` file, which contains the actual software
 
 
+# Installation
+
+```shell
+# Yarn
+yarn add --dev deboa
+
+# npm
+npm i -D deboa
+```
+
 # API
 
 ## Creating a .deb from scratch
