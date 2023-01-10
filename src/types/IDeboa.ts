@@ -1,6 +1,9 @@
-import type { Headers as TarFSHeader } from 'tar-fs'
+import type { Headers as OriginalTarFSHeader } from 'tar-fs'
 import type { Headers as TarStreamHeader } from 'tar-stream'
 import { IControlFileOptions } from './IControlFileOptions'
+
+type TarFSHeader = OriginalTarFSHeader &
+  Pick<TarStreamHeader, 'uname' | 'gname'>
 
 /**
  * @property {IDeboa["additionalTarEntries"]} [additionalTarEntries] -

@@ -372,6 +372,16 @@ class Deboa implements IDeboa {
     tar
       .pack(this.#dataFolderDestination, {
         map: header => {
+          // Why: while undocumented, this header accepts options for the header passed to tar-stream's pack function
+
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          header.gname = 'root'
+
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          header.uname = 'root'
+
           // sensible defaults for Windows users
           if (process.platform === 'win32') {
             const defaultFilePermission = parseInt('0644', 8)
