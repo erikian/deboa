@@ -96,6 +96,7 @@ For more details, please see the [IDeboa interface](https://github.com/erikian/d
 - `beforePackage`: runs after the files are copied to the temporary directory and before they're packaged. You can use this to add/delete/rename any files before they're packaged.
 - `controlFileOptions`: additional control file fields. See the [IControlFileOptions interface](https://github.com/erikian/deboa/blob/main/src/types/IControlFileOptions.ts) for details.
 - `icon`: path to the image you want to use as your app icon.
+- `installationRoot`: directory your files will be installed to. Defaults to `/usr/lib/${packageName}`.
 - `modifyTarHeader`: allows you to modify the header of a file before it's added to the `data` tar archive. The main use case
   for this option is setting permissions in order to make files executable when creating a .deb on Windows:
 
