@@ -187,9 +187,9 @@ class Deboa implements IDeboa {
 
     this.#appFolderDestination = path.join(
       this.#dataFolderDestination,
-      'usr',
-      'lib',
-      packageName,
+      ...(options.installationRoot
+        ? [options.installationRoot]
+        : ['usr', 'lib', packageName]),
     )
   }
 

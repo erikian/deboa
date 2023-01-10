@@ -37,6 +37,10 @@ type TarFSHeader = OriginalTarFSHeader &
  *  /usr/share/pixmaps. Optional.
  *
  *
+ * @property {IDeboa["installationRoot"]} [installationRoot] -
+ *  Directory your files will be installed to. Defaults to `/usr/lib/${packageName}`.
+ *
+ *
  * @property {IDeboa["modifyTarHeader"]} [modifyTarHeader] -
  *  This callback makes it possible to modify file headers before they're
  *  written to the .tar archive, which is useful for setting permissions.
@@ -102,6 +106,11 @@ export interface IDeboa {
    * /usr/share/pixmaps. Optional.
    */
   icon?: string
+
+  /**
+   * Directory your files will be installed to. Defaults to `/usr/lib/${packageName}`.
+   */
+  installationRoot?: string
 
   /**
    * This callback makes it possible to modify file headers before they're
