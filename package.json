@@ -1,7 +1,7 @@
 {
   "name": "deboa",
   "author": "Erik Moura <erikian@erikian.dev>",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Create .deb files in any platform with Node.js",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
