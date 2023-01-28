@@ -16,6 +16,12 @@
       "require": "./dist/cjs/index.js"
     }
   },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "build": "rimraf dist && concurrently \"yarn:build:*\"",
     "build:esm": "swc --config-file .swcrc-esm ./src --out-dir dist/esm && tsc -p tsconfig.json",
