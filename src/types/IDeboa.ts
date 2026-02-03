@@ -143,4 +143,10 @@ export interface IDeboa {
    * **This field is mandatory.**
    */
   targetDir: string
+
+  /**
+   * Filename without the `.deb` extension. Defaults to
+   * `${packageName}_${version}_${architecture}`.
+   */
+  targetFileName?: string
 }

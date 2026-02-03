@@ -112,6 +112,9 @@ class Deboa implements IDeboa {
   /** See {@link IDeboa.targetDir} */
   targetDir: IDeboa['targetDir'] = null
 
+  /** See {@link IDeboa.targetFileName} */
+  targetFileName: IDeboa['targetFileName'] = null
+
   readonly #appFolderDestination: string = null
 
   readonly #controlFolderDestination: string = null
@@ -179,7 +182,9 @@ class Deboa implements IDeboa {
 
     this.#outputFile = path.join(
       this.targetDir,
-      `${packageName}_${version}_${architecture}.deb`,
+      `${
+        options.targetFileName || `${packageName}_${version}_${architecture}`
+      }.deb`,
     )
 
     this.#controlFolderDestination = path.join(this.#tempDir, 'control')
@@ -211,7 +216,7 @@ class Deboa implements IDeboa {
     } = options as IDeboa
 
     if (!packageName) {
-      throw new Error('The controlFileOptions.`packageName` field is mandatory')
+      throw new Error('The `controlFileOptions.packageName` field is mandatory')
     }
 
     if (!version) {
