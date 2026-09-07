@@ -13,8 +13,6 @@ import path from 'path'
 import type { WriteStream } from 'fs'
 import fs from 'fs'
 import fsExtra from 'fs-extra'
-import { promisify } from 'util'
-import fastFolderSize from 'fast-folder-size'
 import tar from 'tar-fs'
 import { writeFileFromLines } from '../utils/writeFileFromLines'
 import { DeboaFromFile } from './DeboaFromFile'
@@ -488,6 +486,26 @@ class Deboa implements IDeboa {
   }
 
   /**
+   * Recursively calculates the total size of a directory in bytes.
+   */
+  async #calculateDirSize(dirPath: string): Promise<number> {
+    let totalSize = 0
+    const files = await fs.promises.readdir(dirPath, { withFileTypes: true })
+
+    for (const file of files) {
+      const fullPath = path.join(dirPath, file.name)
+      if (file.isDirectory()) {
+        totalSize += await this.#calculateDirSize(fullPath)
+      } else {
+        const stats = await fs.promises.stat(fullPath)
+        totalSize += stats.size
+      }
+    }
+
+    return totalSize
+  }
+
+  /**
    * Creates the control file and writes it to the temporary folder.
    */
   async #createControlFile(): Promise<void> {
@@ -514,9 +532,7 @@ class Deboa implements IDeboa {
       },
     } = this
 
-    const fastFolderSizeAsync = promisify(fastFolderSize)
-
-    const installedSize = await fastFolderSizeAsync(this.sourceDir)
+    const installedSize = await this.#calculateDirSize(this.sourceDir)
 
     const lines = [
       `Package: ${packageName}`,

@@ -32,7 +32,6 @@
     "url": "https://github.com/erikian/deboa.git"
   },
   "dependencies": {
-    "fast-folder-size": "^2.4.0",
     "fs-extra": "^10.1.0",
     "lzma-native": "^8.0.6",
     "tar-fs": "^2.1.4"
